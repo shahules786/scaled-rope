@@ -61,6 +61,9 @@ def apply_patches(loaded, length, dynamic_ntk, dynamic_linear, ntk, linear, part
     elif linear:
         if "LlamaForCausalLM" in loaded.config.architectures:
             patch_llama_for_linear_scaled_rotary_embeddings(loaded, scale=linear)
+        elif "RWForCasualLM" in loaded.config.architectures:
+            patch_rw_for_scaled_rotary_embeddings(loaded, scale=linear)
+            
         else:
             raise RuntimeError(
                 f"Unsupported architecture {loaded.config.architectures} for linear")

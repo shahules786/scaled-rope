@@ -47,3 +47,11 @@ def patch_gptneox_for_longer_sequences(model, max_positions):
         each.attention.bias = torch.tril(torch.ones((max_positions, max_positions), dtype=each.attention.bias.dtype, device=each.attention.bias.device)).view(
             1, 1, max_positions, max_positions
         )
+
+
+def patch_rw_for_scaled_rotary_embeddings(model, scale):
+    from .RWScaledRotary import RWScaledRotary
+    for each in model.transformer.h:
+        each.self_attention.maybe_rotary = RWScaledRotary(model.config.head_dim, scale)
+        
+    
