@@ -1,7 +1,7 @@
 
 import torch
 from typing import Optional
-from .RWScaledRotary import rotate_half
+from .RWScaledRotaryEmbedding import rotate_half
 
 class RWNTKScaledRotaryEmbedding(torch.nn.Module):
 
