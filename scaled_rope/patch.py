@@ -50,8 +50,12 @@ def patch_gptneox_for_longer_sequences(model, max_positions):
 
 
 def patch_rw_for_scaled_rotary_embeddings(model, scale):
-    from .RWScaledRotary import RWScaledRotary
+    from .RWScaledRotaryEmbedding import RWScaledRotaryEmbedding
     for each in model.transformer.h:
-        each.self_attention.maybe_rotary = RWScaledRotary(model.config.head_dim, scale)
-        
+        each.self_attention.maybe_rotary = RWScaledRotary(model.config.head_dim, scale=scale)
+      
+def patch_rw_for_scaled_ntk_rotary_embeddings(model, alpha):
+    from .RWNTKScaledRotaryEmbedding import RWNTKScaledRotaryEmbedding
+    for each in model.transformer.h:
+        each.self_attention.maybe_rotary = RWNTKScaledRotaryEmbedding(model.config.head_dim, alpha=alpha)  
     
